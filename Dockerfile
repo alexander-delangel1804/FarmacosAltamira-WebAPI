@@ -7,12 +7,15 @@ COPY ["Directory.Packages.props", "./"]
 COPY ["Directory.Build.props", "./"]
 COPY ["FarmacosAltamira.sln", "./"]
 
-# Copiar el proyecto de la API y restaurar dependencias
+# Copiar TODOS los proyectos referenciados en la solución
 COPY ["src/FarmacosAltamira.Api/FarmacosAltamira.Api.csproj", "src/FarmacosAltamira.Api/"]
 COPY ["src/FarmacosAltamira.Application/FarmacosAltamira.Application.csproj", "src/FarmacosAltamira.Application/"]
 COPY ["src/FarmacosAltamira.Domain/FarmacosAltamira.Domain.csproj", "src/FarmacosAltamira.Domain/"]
 COPY ["src/FarmacosAltamira.Contracts/FarmacosAltamira.Contracts.csproj", "src/FarmacosAltamira.Contracts/"]
 COPY ["src/FarmacosAltamira.Infrastructure/FarmacosAltamira.Infrastructure.csproj", "src/FarmacosAltamira.Infrastructure/"]
+COPY ["src/FarmacosAltamira.Worker/FarmacosAltamira.Worker.csproj", "src/FarmacosAltamira.Worker/"]
+COPY ["tests/FarmacosAltamira.UnitTests/FarmacosAltamira.UnitTests.csproj", "tests/FarmacosAltamira.UnitTests/"]
+COPY ["tests/FarmacosAltamira.IntegrationTests/FarmacosAltamira.IntegrationTests.csproj", "tests/FarmacosAltamira.IntegrationTests/"]
 
 RUN dotnet restore "FarmacosAltamira.sln"
 
