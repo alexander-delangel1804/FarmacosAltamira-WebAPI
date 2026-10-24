@@ -1,0 +1,173 @@
+# =====================================================================
+# Fármacos Altamira - .gitignore
+# .NET 10 Clean Architecture + PostgreSQL + SQLite + Render
+# =====================================================================
+
+## Build outputs
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+
+## .NET / MSBuild
+*.dll
+*.exe
+*.pdb
+*.cache
+
+## User-specific files
+*.user
+*.userosscache
+*.sln.docstates
+*.suo
+*.suo.user
+
+## IDE / Editors
+.vs/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+## OS files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+## Test results
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+## NuGet
+packages/
+*.nupkg
+*.snupkg
+# NuGet symbol packages
+*.snupkg
+# NuGet v3 cache
+.nuget/
+
+## Dotnet tool manifest
+dotnet-tools.json
+
+## Entity Framework Core migrations (keep if DB-first, remove if using migrations)
+# Migrations/
+# *.cs
+# *.Designer.cs
+
+## Local databases (SQLite POS local.db)
+*.db
+*.sqlite
+*.sqlite3
+local.db
+
+## Environment / Secrets / Configuration
+*.env
+*.env.*
+*.local
+appsettings.*.json
+!appsettings.json
+!appsettings.Development.json
+!appsettings.Docker.json
+secrets.json
+*.secret
+*.pem
+*.key
+*.pfx
+*.crt
+
+## Docker
+docker-compose.override.yml
+.docker/
+
+## Logs
+logs/
+*.log
+
+## Backup files
+*.bak
+*.backup
+*.old
+
+## Visual Studio profiling
+*.vspscc
+*.vssscc
+
+## ReSharper
+_ReSharper*/
+*.dotSettings
+
+## Rider
+.idea/
+
+## VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+## SQL / Database scripts (keep db/ folder but ignore local execution outputs)
+*.sql~
+*.dacpac
+*.bacpac
+
+## BenchmarkDotNet
+BenchmarkDotNet.Artifacts/
+
+## Publish outputs
+publish/
+*.pubxml
+*.pubxml.user
+
+## Windows specific
+*.msi
+*.msix
+*.appx
+
+## macOS specific
+*.app
+
+## Linux specific
+*.AppImage
+
+# =====================================================================
+# Project-specific additions
+# =====================================================================
+
+## LocalDbContext SQLite (POS local.db - keep out of repo)
+local.db
+local.db-shm
+local.db-wal
+
+## Test containers / integration test artifacts
+TestContainers/
+
+## Render / Cloud credentials
+render.yaml
+*.render.*
+
+## Serilog output (if configured to file)
+logs/
+*.txt
+*.jsonl
+
+## Custom tool outputs
+*.generated.cs
+
+# =====================================================================
+# DO NOT IGNORE (explicitly track)
+# =====================================================================
+!appsettings.json
+!appsettings.Development.json
+!appsettings.Docker.json
+!Directory.Build.props
+!Directory.Packages.props
+!FarmacosAltamira.sln
+!SYNC_PLAN.md
+!db/
+!src/
+!tests/

@@ -1,0 +1,35 @@
+namespace FarmacosAltamira.Domain.Enums;
+
+public enum TipoEventoBitacora
+{
+    InicioSesion,
+    InicioSesionFallido,
+    CierreSesion,
+    BloqueoCuenta,
+    DesbloqueoCuenta,
+    CrearUsuario,
+    ActualizarUsuario,
+    DesactivarUsuario,
+    AsignarRol,
+    CrearProducto,
+    ActualizarProducto,
+    DesactivarProducto,
+    RecibirMercancia,
+    AjustarInventario,
+    SolicitarTraslado,
+    DespacharTraslado,
+    RecibirTraslado,
+    CancelarTraslado,
+    AbrirCorte,
+    CerrarCorte,
+    RegistrarVenta,
+    CancelarVenta,
+    DevolverVenta,
+    TimbrarFactura,
+    CancelarFactura,
+    PagarServicio,
+    GenerarReporte,
+    EjecutarRespaldo,
+    ImportarGesem,
+    CambiarParametro
+}
