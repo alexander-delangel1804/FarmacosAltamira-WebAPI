@@ -3,6 +3,7 @@ using FarmacosAltamira.Application.Caja.Services;
 using FarmacosAltamira.Application.Catalogo.Services;
 using FarmacosAltamira.Application.Inventario.Services;
 using FarmacosAltamira.Application.Seguridad.Services;
+using FarmacosAltamira.Application.Sincronizacion.Services;
 using FarmacosAltamira.Application.Traslados.Services;
 using FarmacosAltamira.Application.Ventas.Services;
 using FarmacosAltamira.Infrastructure.HealthChecks;
@@ -79,6 +80,10 @@ public static class DependencyInjection
         services.AddScoped<ParametroService>();
         services.AddScoped<RespaldoService>();
         services.AddScoped<AuthService>();
+        services.AddScoped<IAuthService, AuthService>();
+
+        // Sincronización
+        services.AddScoped<SincronizacionService>();
 
         // Catálogo, inventario, traslados, caja y ventas
         services.AddScoped<IKardexService, KardexService>();

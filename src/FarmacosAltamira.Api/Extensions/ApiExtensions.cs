@@ -15,13 +15,43 @@ using System.Threading.RateLimiting;
 
 namespace FarmacosAltamira.Api.Extensions;
 
+using System.Net;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using FarmacosAltamira.Api.Middleware;
+
 public sealed class ValidateModelFilter : IActionFilter
 {
     public void OnActionExecuting(ActionExecutingContext context)
     {
         if (!context.ModelState.IsValid)
         {
-            context.Result = new BadRequestObjectResult(context.ModelState);
+            var errores = context.ModelState
+                .Where(e => e.Value?.Errors.Count > 0)
+                .ToDictionary(
+                    e => e.Key,
+                    e => e.Value!.Errors.Select(err => err.ErrorMessage).ToArray());
+
+            var detalles = new
+            {
+                errores,
+                cantidad = context.ModelState.ErrorCount
+            };
+
+            var error = new FarmacosAltamira.Api.Middleware.ProblemDetailsResponse
+            {
+                Status = (int)HttpStatusCode.BadRequest,
+                Title = "Bad Request",
+                Detail = "Error de validación en los datos de entrada",
+                Codigo = "SYNC_VALIDATION_ERROR",
+                Detalles = detalles
+            };
+
+            context.Result = new ObjectResult(error)
+            {
+                StatusCode = (int)HttpStatusCode.BadRequest
+            };
         }
     }
 
@@ -144,6 +174,13 @@ public static class ApiExtensions
         
         // Infrastructure
         services.AddInfrastructure(configuration);
+
+        // HttpClient for sync service to call central API
+        services.AddHttpClient("CentralApi", client =>
+        {
+            client.BaseAddress = new Uri(configuration["CentralApi:BaseUrl"] ?? "http://localhost:5000");
+            client.Timeout = TimeSpan.FromSeconds(30);
+        });
 
         return services;
     }

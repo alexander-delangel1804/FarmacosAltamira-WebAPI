@@ -4,8 +4,11 @@ using FarmacosAltamira.Application.Inventario.Dto;
 using FarmacosAltamira.Application.Inventario.Services;
 using FarmacosAltamira.Application.Seguridad.Dto;
 using FarmacosAltamira.Application.Seguridad.Services;
+using FarmacosAltamira.Application.Sincronizacion.Dto;
+using FarmacosAltamira.Application.Sincronizacion.Services;
 using FarmacosAltamira.Contracts;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace FarmacosAltamira.Api.Controllers;
 
@@ -17,17 +20,20 @@ public sealed class SincronizacionController : ControllerBase
     private readonly LoteService _loteService;
     private readonly UsuarioService _usuarioService;
     private readonly ParametroService _parametroService;
+    private readonly SincronizacionService _sincronizacionService;
 
     public SincronizacionController(
         ProductoService productoService,
         LoteService loteService,
         UsuarioService usuarioService,
-        ParametroService parametroService)
+        ParametroService parametroService,
+        SincronizacionService sincronizacionService)
     {
         _productoService = productoService;
         _loteService = loteService;
         _usuarioService = usuarioService;
         _parametroService = parametroService;
+        _sincronizacionService = sincronizacionService;
     }
 
     [HttpGet("catalogo")]
@@ -118,40 +124,25 @@ public sealed class SincronizacionController : ControllerBase
 
         return Ok(ApiResponse<IReadOnlyList<SyncParametroDto>>.Ok(resultado));
     }
+
+    [HttpPost("subir")]
+    [EnableRateLimiting("sync")]
+    public async Task<ActionResult<ApiResponse<SubirVentasResponse>>> SubirVentas(CancellationToken ct)
+    {
+        var resultado = await _sincronizacionService.SubirVentasPendientesAsync(ct);
+        
+        var response = new SubirVentasResponse(
+            resultado.Exitosas,
+            resultado.Fallidas,
+            resultado.Total,
+            resultado.Exitosas > 0 ? "Sincronización completada" : "No hay ventas pendientes o todas fallaron");
+
+        return Ok(ApiResponse<SubirVentasResponse>.Ok(response));
+    }
 }
 
-public sealed record SyncProductoDto(
-    int IdProducto,
-    string CodigoBarras,
-    string NombreComercial,
-    decimal PrecioVenta,
-    decimal TasaIva,
-    bool EsControlado,
-    bool Activo);
-
-public sealed record SyncPromocionDto(
-    int IdPromocion,
-    string Nombre,
-    string Tipo,
-    decimal Valor,
-    DateOnly FechaInicio,
-    DateOnly FechaFin,
-    bool Activa);
-
-public sealed record SyncUsuarioDto(
-    int IdUsuario,
-    string NombreUsuario,
-    string HashContrasena,
-    string Rol,
-    bool Activo,
-    bool Bloqueado,
-    DateTimeOffset ActualizadoEn);
-
-public sealed record SyncExistenciaDto(
-    int IdLote,
-    int Cantidad,
-    int CantidadReservada);
-
-public sealed record SyncParametroDto(
-    string Clave,
-    string Valor);
+public sealed record SubirVentasResponse(
+    int Exitosas,
+    int Fallidas,
+    int Total,
+    string Mensaje);

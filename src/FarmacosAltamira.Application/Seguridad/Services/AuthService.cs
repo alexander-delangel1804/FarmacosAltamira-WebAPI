@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FarmacosAltamira.Application.Seguridad.Services;
 
-public sealed class AuthService
+public sealed class AuthService : IAuthService
 {
     private readonly ICentralDbContext _db;
     private readonly IPasswordHasher _hasher;
