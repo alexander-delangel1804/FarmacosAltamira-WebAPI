@@ -110,6 +110,15 @@ public sealed class SincronizacionController : ControllerBase
         return Ok(ApiResponse<IReadOnlyList<SyncExistenciaDto>>.Ok(resultado));
     }
 
+    [HttpGet("bajar")]
+    public async Task<ActionResult<ApiResponse<BajarDatosResultado>>> Bajar(
+        [FromQuery] DateTimeOffset? desde,
+        CancellationToken ct = default)
+    {
+        var resultado = await _sincronizacionService.BajarDatosAsync(desde, ct);
+        return Ok(ApiResponse<BajarDatosResultado>.Ok(resultado));
+    }
+
     [HttpGet("parametros")]
     public async Task<ActionResult<ApiResponse<IReadOnlyList<SyncParametroDto>>>> Parametros(
         [FromQuery] int pagina = 1,

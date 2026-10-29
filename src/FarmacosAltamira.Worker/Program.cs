@@ -11,7 +11,6 @@ var configuration = builder.Configuration;
 builder.Services.AddSerilog((services, loggerConfig) =>
 {
     loggerConfig
-        .ReadFrom.Configuration(builder.Configuration)
         .ReadFrom.Services(services)
         .Enrich.FromLogContext()
         .WriteTo.Console()
@@ -19,10 +18,6 @@ builder.Services.AddSerilog((services, loggerConfig) =>
 });
 
 builder.Services.AddInfrastructure(configuration);
-// builder.Services.AddHostedService<AlertasWorker>();          // Comentado: no crítico para arranque
-// builder.Services.AddHostedService<TimbradoWorker>();         // Comentado: no crítico para arranque
-// builder.Services.AddHostedService<PagosServicioWorker>();    // Comentado: no crítico para arranque
-// builder.Services.AddHostedService<RespaldoWorker>();         // Comentado: no crítico para arranque
 
 var host = builder.Build();
 host.Run();

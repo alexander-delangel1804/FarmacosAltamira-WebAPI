@@ -15,9 +15,11 @@ public sealed class Venta
     public decimal Iva { get; set; }
     public decimal Total { get; set; }
     public EstadoVenta Estado { get; set; } = EstadoVenta.EnCaptura;
+    public int IdUbicacion { get; set; }
     public bool RequiereFactura { get; set; }
     public bool Sincronizada { get; set; } = true;
     public DateTimeOffset? FechaSincronizacion { get; set; }
+    public DateTimeOffset? FechaRecepcion { get; set; }
 
     public CorteCaja Corte { get; set; } = null!;
     public Usuario Usuario { get; set; } = null!;

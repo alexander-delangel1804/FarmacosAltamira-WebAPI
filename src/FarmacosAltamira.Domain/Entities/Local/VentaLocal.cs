@@ -7,6 +7,7 @@ public sealed class VentaLocal
     public string Folio { get; set; } = string.Empty;
     public int IdCorteLocal { get; set; }
     public int IdUsuario { get; set; }
+    public int IdUbicacion { get; set; }
     public string FechaHora { get; set; } = string.Empty; // ISO8601
     public decimal Subtotal { get; set; }
     public decimal Descuento { get; set; }
